@@ -1,0 +1,24 @@
+namespace Library
+{
+    public partial class NewUser : Form
+    {
+        public NewUser()
+        {
+            InitializeComponent();
+        }
+ 
+        private void Button1_Click(object sender, EventArgs e)  //тут сериализация
+        {
+            if (textBoxName!=null && textBoxSurname!=null && textBoxDepartment!=null && textBoxGroup!=null && textBoxAddress!= null && textBoxPhone!=null)
+            {
+                List<UsersClass> users = new List<UsersClass>();
+                BinaryFormatter formatter = new BinaryFormatter();
+                using (FileStream fs = new FileStream("UsersInfo.txt", FileMode.Append))
+                {
+                    formatter.Serialize(fs, users);
+                    fs.Close();
+                }
+            }         
+        }
+    }
+}

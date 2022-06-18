@@ -1,0 +1,42 @@
+namespace Library
+{
+    public partial class Users : Form
+    {
+        public Users()
+        {
+            InitializeComponent();
+        }
+ 
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            NewUser NewUserForm = new NewUser();
+            NewUserForm.Show();
+        }
+ 
+        public void BinaryDeserialization(List<UsersClass> users)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("UsersInfo.txt", FileMode.OpenOrCreate))
+            {
+                users = formatter.Deserialize(fs) as List<UsersClass>;
+                fs.Close();
+                if (users != null)
+                {
+                    int i = 0;
+                    foreach (UsersClass user in users)
+                    {
+                        dataGridView1.Rows.Add(user);
+                        Console.WriteLine();
+                        i++;
+                    }
+                }
+            }
+        }
+ 
+        private void Users_Load(object sender, EventArgs e)
+        {
+            List<UsersClass> users = new List<UsersClass>();
+            BinaryDeserialization(users);
+        }
+    }
+}
